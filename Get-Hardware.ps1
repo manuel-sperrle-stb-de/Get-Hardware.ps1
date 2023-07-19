@@ -66,4 +66,4 @@
         'DefaultIPGateway'
     )
 
-} | ConvertTo-Json -Depth 3 -Compress
+} | ConvertTo-Json -Depth 5 -Compress
