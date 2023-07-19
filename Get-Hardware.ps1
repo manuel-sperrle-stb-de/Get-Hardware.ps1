@@ -1,16 +1,33 @@
+$CimInstance = @{}
+@('ComputerSystem','Bios','Processor','PhysicalMemory','LogicalDisk','VideoController','NetworkAdapterConfiguration') | ForEach-Object -Parallel {
+    ($Using:CimInstance).$PSItem = Get-CimInstance ('Win32_{0}' -f $PSItem)
+}
+
 [PSCustomObject]@{
 
     TimeStamp = Get-Date -Format s
 
-    Bios = Get-CimInstance Win32_Bios | Select-Object @(
+    Name = $CimInstance.ComputerSystem.Name
+    SerialNumber = $CimInstance.Bios.SerialNumber
+
+    ComputerSystem = $CimInstance.ComputerSystem | Select-Object @(
+        'Name'
+        'Domain'
+        'Manufacturer'
+        'Model'
+        'OEMStringArray'
+        'PrimaryOwnerName'
+    )
+
+    Bios = $CimInstance.Bios | Select-Object @(
         'Name'
         'Manufacturer'
         'Version'
         'SerialNumber'
         'SMBIOSBIOSVersion'
-    )
+    ) 
 
-    Processor = Get-CimInstance Win32_Processor | Select-Object @(
+    Processor = $CimInstance.Processor | Select-Object @(
         'Name'
         'DeviceID'
         'Manufacturer'
@@ -22,7 +39,7 @@
         'L3CacheSize'
     )
     
-    PhysicalMemory = Get-CimInstance Win32_PhysicalMemory | Select-Object @(
+    PhysicalMemory = $CimInstance.PhysicalMemory | Select-Object @(
         'PartNumber'
         'Manufacturer'
         'BankLabel'
@@ -31,7 +48,7 @@
         'FormFactor'
     )
 
-    LogicalDisk = Get-CimInstance Win32_LogicalDisk | Select-Object @(
+    LogicalDisk = $CimInstance.LogicalDisk | Select-Object @(
         'DeviceID'
         'DriveType'
         'MediaType'
@@ -43,7 +60,7 @@
         'MaximumComponentLength'
     )
 
-    VideoController = Get-CimInstance Win32_Videocontroller | Select-Object @(
+    VideoController = $CimInstance.Videocontroller | Select-Object @(
         'Name' 
         'PNPDeviceID'
         'VideoProcessor'
@@ -53,7 +70,7 @@
         'DriverVersion'
     )
 
-    NetworkAdapterConfiguration = Get-CimInstance Win32_NetworkAdapterConfiguration | Select-Object @(
+    NetworkAdapterConfiguration = $CimInstance.NetworkAdapterConfiguration | Select-Object @(
         'Index'
         'ServiceName'
         'DHCPEnabled'
