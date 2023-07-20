@@ -1,6 +1,6 @@
 $CimInstance = @{}
-@('ComputerSystem','Bios','Processor','PhysicalMemory','LogicalDisk','VideoController','NetworkAdapterConfiguration') | ForEach-Object -Parallel {
-    ($Using:CimInstance).$PSItem = Get-CimInstance ('Win32_{0}' -f $PSItem)
+@('ComputerSystem','Bios','Processor','PhysicalMemory','LogicalDisk','VideoController','NetworkAdapterConfiguration') | ForEach-Object {
+    ($CimInstance).$_ = Get-CimInstance ('Win32_{0}' -f $_)
 }
 
 [PSCustomObject]@{
