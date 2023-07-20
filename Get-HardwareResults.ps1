@@ -1,7 +1,7 @@
 #Requires -Modules @{ ModuleName='Microsoft.Graph.Intune'; RequiredVersion='6.1907.1.0'; }
 
 param (
-    $DeviceManagementScriptId = (Get-Content .\DeviceManagementScriptId.env )
+    $DeviceManagementScriptId = (Get-Content (Join-Path $PSScriptRoot 'DeviceManagementScriptId.env') )
 )
 
 Update-MSGraphEnvironment -SchemaVersion 'beta' | Write-Host
